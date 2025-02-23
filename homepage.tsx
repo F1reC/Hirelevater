@@ -11,7 +11,7 @@ export default function Homepage() {
       {/* Header */}
       <header className="glass-effect sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-[#4A90E2]">JobTech AI</div>
+          <div className="text-2xl font-bold text-[#4A90E2]">Hirelevater</div>
           <nav className="hidden md:flex space-x-4">
             <Link href="/jobs"><Button variant="ghost">Jobs</Button></Link>
             <Link href="/interview-prep"><Button variant="ghost">Interview Prep</Button></Link>
@@ -173,7 +173,7 @@ export default function Homepage() {
       {/* Footer */}
       <footer className="glass-effect border-t border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-gray-500">
-          © 2023 JobTech AI. All rights reserved.
+          © 2023 Hirelevater. All rights reserved.
         </div>
       </footer>
     </div>
