@@ -13,6 +13,7 @@ export default function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="text-2xl font-bold text-[#4A90E2]">Hirelevater</div>
           <nav className="hidden md:flex space-x-4">
+            <Link href="/anonymous-match"><Button variant="ghost">Anonymous Match</Button></Link>
             <Link href="/jobs"><Button variant="ghost">Jobs</Button></Link>
             <Link href="/interview-prep"><Button variant="ghost">Interview Prep</Button></Link>
             <Link href="/community"><Button variant="ghost">Community</Button></Link>
