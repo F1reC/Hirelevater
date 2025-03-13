@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -94,6 +95,10 @@ const filters = [
 
 export default function CareerConsulting() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [chatOpen, setChatOpen] = useState(false);
+  const [selectedConsultant, setSelectedConsultant] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
@@ -194,7 +199,13 @@ export default function CareerConsulting() {
                           </div>
                           <span className="text-gray-600">Available: {consultant.availability}</span>
                         </div>
-                        <Button className="bg-[#4A90E2] hover:bg-[#357ABD]">
+                        <Button 
+                          className="bg-[#4A90E2] hover:bg-[#357ABD]"
+                          onClick={() => {
+                            setSelectedConsultant(consultant);
+                            setChatOpen(true);
+                          }}
+                        >
                           Start Chat <MessageCircle className="w-4 h-4 ml-2" />
                         </Button>
                       </div>
@@ -266,6 +277,65 @@ export default function CareerConsulting() {
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={chatOpen}
+        onOpenChange={setChatOpen}
+      >
+        <DialogContent className="max-w-[500px] glass-effect">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5" />
+              {selectedConsultant?.role} at {selectedConsultant?.company}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col h-[400px]">
+            <ScrollArea className="flex-grow mb-4 p-4 bg-white/50 rounded-lg">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg ${
+                      message.sender === 'user'
+                        ? 'bg-[#4A90E2] text-white'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    {message.content}
+                  </div>
+                </div>
+              ))}
+            </ScrollArea>
+            <div className="flex gap-2">
+              <Input
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type your message..."
+                className="flex-grow"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && newMessage.trim()) {
+                    setMessages([...messages, { content: newMessage, sender: 'user' }]);
+                    setNewMessage('');
+                  }
+                }}
+              />
+              <Button
+                className="bg-[#4A90E2] hover:bg-[#357ABD]"
+                onClick={() => {
+                  if (newMessage.trim()) {
+                    setMessages([...messages, { content: newMessage, sender: 'user' }]);
+                    setNewMessage('');
+                  }
+                }}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
