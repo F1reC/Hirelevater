@@ -7,41 +7,81 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Users, MessageCircle, Star, Filter } from 'lucide-react';
+import { Users, MessageCircle, Star, Filter, Shield, Eye, EyeOff } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
-const mockMatches = [
+const mockConsultants = [
   {
     id: 1,
     role: 'Senior Software Engineer',
-    company: 'Top Tech Company',
+    company: 'Microsoft',
     experience: '8+ years',
     expertise: ['System Design', 'Microservices', 'Cloud Architecture'],
-    rate: '¥500/hour',
+    rate: '$150/hour',
     rating: 4.9,
     reviews: 128,
-    availability: 'Next 3 days'
+    availability: 'Next 3 days',
+    anonymous: false
   },
   {
     id: 2,
     role: 'Product Manager',
-    company: 'Leading Internet Company',
+    company: 'Meta',
     experience: '5+ years',
     expertise: ['Product Strategy', 'User Research', 'Agile'],
-    rate: '¥400/hour',
+    rate: '$120/hour',
     rating: 4.8,
     reviews: 89,
-    availability: 'Today'
+    availability: 'Today',
+    anonymous: false
   },
   {
     id: 3,
     role: 'Tech Lead',
-    company: 'Unicorn Startup',
+    company: 'Google',
     experience: '10+ years',
     expertise: ['Team Leadership', 'Architecture', 'Scaling'],
-    rate: '¥600/hour',
+    rate: '$180/hour',
     rating: 4.95,
     reviews: 156,
-    availability: 'Next week'
+    availability: 'Next week',
+    anonymous: false
+  },
+  {
+    id: 4,
+    role: 'Senior Frontend Engineer',
+    company: 'Leading Tech Company',
+    experience: '6+ years',
+    expertise: ['React', 'TypeScript', 'Web Performance'],
+    rate: '$140/hour',
+    rating: 4.85,
+    reviews: 92,
+    availability: 'Tomorrow',
+    anonymous: true
+  },
+  {
+    id: 5,
+    role: 'Engineering Manager',
+    company: 'Apple',
+    experience: '12+ years',
+    expertise: ['Team Management', 'Technical Leadership', 'Product Development'],
+    rate: '$200/hour',
+    rating: 4.92,
+    reviews: 143,
+    availability: 'Next week',
+    anonymous: false
+  },
+  {
+    id: 6,
+    role: 'Machine Learning Engineer',
+    company: 'Amazon',
+    experience: '7+ years',
+    expertise: ['ML Systems', 'Deep Learning', 'Data Science'],
+    rate: '$160/hour',
+    rating: 4.88,
+    reviews: 115,
+    availability: 'This week',
+    anonymous: false
   }
 ];
 
@@ -49,16 +89,20 @@ const filters = [
   { name: 'Position Type', options: ['Technical', 'Product', 'Design', 'Operations', 'Marketing'] },
   { name: 'Company Type', options: ['Big Tech', 'Unicorn', 'Startup', 'MNC'] },
   { name: 'Experience', options: ['< 3 years', '3-5 years', '5-8 years', '8+ years'] },
-  { name: 'Price Range', options: ['< ¥200/hr', '¥200-400/hr', '¥400-600/hr', '> ¥600/hr'] }
+  { name: 'Price Range', options: ['< $100/hr', '$100-150/hr', '$150-200/hr', '> $200/hr'] }
 ];
 
-export default function AnonymousMatch() {
+export default function CareerConsulting() {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-[#4A90E2]">Anonymous Matching</h1>
+        <h1 className="text-3xl font-bold mb-8 text-[#4A90E2]">Career Consulting</h1>
+        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center">
+          <Shield className="w-5 h-5 text-yellow-600 mr-2" />
+          <p className="text-sm text-yellow-700">Our platform strictly monitors information compliance and ensures all consulting content adheres to relevant regulations. We remind consultants and job seekers to comply with company confidentiality agreements and not disclose sensitive information.</p>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left Sidebar - Filters */}
@@ -110,23 +154,30 @@ export default function AnonymousMatch() {
 
             <ScrollArea className="h-[600px]">
               <div className="space-y-4">
-                {mockMatches.map((match) => (
-                  <Card key={match.id} className="glass-effect hover-scale">
+                {mockConsultants.map((consultant) => (
+                  <Card key={consultant.id} className="glass-effect hover-scale">
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start mb-4">
                         <div>
-                          <h3 className="text-xl font-semibold mb-2">{match.role}</h3>
-                          <p className="text-gray-600">{match.company}</p>
-                          <p className="text-gray-600">{match.experience} Experience</p>
+                          <div className="flex items-center gap-2 mb-2">
+                            <h3 className="text-xl font-semibold">{consultant.anonymous ? consultant.role : `${consultant.role} at ${consultant.company}`}</h3>
+                            {consultant.anonymous ? (
+                              <EyeOff className="w-4 h-4 text-gray-400" title="匿名模式" />
+                            ) : (
+                              <Eye className="w-4 h-4 text-green-500" title="实名模式" />
+                            )}
+                          </div>
+                          <p className="text-gray-600">{consultant.anonymous ? "Leading Tech Company" : consultant.company}</p>
+                          <p className="text-gray-600">{consultant.experience} experience</p>
                         </div>
                         <Badge variant="secondary" className="bg-[#4A90E2] text-white">
-                          {match.rate}
+                          {consultant.rate}
                         </Badge>
                       </div>
 
                       <div className="mb-4">
                         <div className="flex flex-wrap gap-2">
-                          {match.expertise.map((skill, index) => (
+                          {consultant.expertise.map((skill, index) => (
                             <Badge key={index} variant="outline">
                               {skill}
                             </Badge>
@@ -138,10 +189,10 @@ export default function AnonymousMatch() {
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center">
                             <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                            <span className="font-medium">{match.rating}</span>
-                            <span className="text-gray-500 ml-1">({match.reviews})</span>
+                            <span className="font-medium">{consultant.rating}</span>
+                            <span className="text-gray-500 ml-1">({consultant.reviews})</span>
                           </div>
-                          <span className="text-gray-600">Available: {match.availability}</span>
+                          <span className="text-gray-600">Available: {consultant.availability}</span>
                         </div>
                         <Button className="bg-[#4A90E2] hover:bg-[#357ABD]">
                           Start Chat <MessageCircle className="w-4 h-4 ml-2" />
@@ -196,17 +247,17 @@ export default function AnonymousMatch() {
                 <div className="space-y-4">
                   <div className="p-4 border border-[#4A90E2] border-opacity-20 rounded-lg">
                     <h3 className="font-semibold mb-2">Junior Mentor</h3>
-                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">¥200-400<span className="text-sm text-gray-600">/hour</span></p>
+                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">$80-120<span className="text-sm text-gray-600">/hour</span></p>
                     <p className="text-sm text-gray-600">3-5 years experience</p>
                   </div>
                   <div className="p-4 border border-[#4A90E2] border-opacity-20 rounded-lg">
                     <h3 className="font-semibold mb-2">Senior Mentor</h3>
-                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">¥400-600<span className="text-sm text-gray-600">/hour</span></p>
+                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">$120-180<span className="text-sm text-gray-600">/hour</span></p>
                     <p className="text-sm text-gray-600">5-8 years experience</p>
                   </div>
                   <div className="p-4 border border-[#4A90E2] border-opacity-20 rounded-lg">
                     <h3 className="font-semibold mb-2">Expert Mentor</h3>
-                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">¥600+<span className="text-sm text-gray-600">/hour</span></p>
+                    <p className="text-2xl font-bold text-[#4A90E2] mb-2">$180+<span className="text-sm text-gray-600">/hour</span></p>
                     <p className="text-sm text-gray-600">8+ years experience</p>
                   </div>
                 </div>

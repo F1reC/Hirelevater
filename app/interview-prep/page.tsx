@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,70 @@ const mockQuestions = [
     likes: 156,
     answers: 62
   },
+  {
+    id: 3,
+    question: 'Explain the differences between REST and GraphQL',
+    difficulty: 'Medium',
+    category: 'Backend Development',
+    likes: 234,
+    answers: 78
+  },
+  {
+    id: 4,
+    question: 'How does database indexing work and when should you use it?',
+    difficulty: 'Hard',
+    category: 'Backend Development',
+    likes: 189,
+    answers: 56
+  },
+  {
+    id: 5,
+    question: 'Design a scalable URL shortening service like TinyURL',
+    difficulty: 'Hard',
+    category: 'System Design',
+    likes: 312,
+    answers: 89
+  },
+  {
+    id: 6,
+    question: 'Implement a debounce function from scratch',
+    difficulty: 'Medium',
+    category: 'Frontend Development',
+    likes: 167,
+    answers: 52
+  },
+  {
+    id: 7,
+    question: 'Explain how event loop works in JavaScript',
+    difficulty: 'Medium',
+    category: 'Frontend Development',
+    likes: 245,
+    answers: 82
+  },
+  {
+    id: 8,
+    question: 'What are microservices and how do they communicate?',
+    difficulty: 'Medium',
+    category: 'Backend Development',
+    likes: 198,
+    answers: 64
+  },
+  {
+    id: 9,
+    question: 'Design a distributed cache system',
+    difficulty: 'Hard',
+    category: 'System Design',
+    likes: 276,
+    answers: 71
+  },
+  {
+    id: 10,
+    question: 'Explain CORS and how to handle it',
+    difficulty: 'Easy',
+    category: 'Frontend Development',
+    likes: 143,
+    answers: 59
+  }
 ];
 
 export default function InterviewPrep() {
@@ -98,8 +163,10 @@ export default function InterviewPrep() {
                             <span>{q.likes} likes</span>
                             <span>{q.answers} answers</span>
                           </div>
-                          <Button variant="default" size="sm" className="bg-[#4A90E2] hover:bg-[#357ABD]">
-                            View Answer <ChevronRight className="w-4 h-4 ml-1" />
+                          <Button variant="default" size="sm" className="bg-[#4A90E2] hover:bg-[#357ABD]" asChild>
+                            <Link href={`/interview-prep/questions/${q.id}`}>
+                              View Answer <ChevronRight className="w-4 h-4 ml-1" />
+                            </Link>
                           </Button>
                         </div>
                       </CardContent>
